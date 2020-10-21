@@ -1,8 +1,3 @@
-from vex import *
-
-#the FORWARD spin represents the wheels rotating counter-clockwise
-#the REVERSE spin represents the wheels rotating clockwise
-
 #disclaimer, I haven't seen the robot in action yet, so I *think*
 #thats what FORWARD and REVERSE should look like, but I don't actually know - HL
 
@@ -16,10 +11,10 @@ from vex import *
 
 #activate the left and back motors to work in the same direction
 #activate the right motor to balance the motion in the opposite direction
-#def move_left():
-    #left_motor(FORWARD)
-    #right_motor(REVERSE)
-    #back_motor(REVERSE)
+def move_left():
+    left_motor.spin(FORWARD)
+    right_motor.spin(REVERSE)
+    back_motor.spin(REVERSE)
 
 #activate the right and back motors to work in the same direction
 #activate the left motor to balance the motion in the opposite direction
@@ -42,3 +37,9 @@ from vex import *
 
 while True:
     
+        axis3Value = controller_1.axis3.position();
+        axis4Value = controller_1.axis4.position();
+
+        left_motor.spin(FORWARD, (axis3Value + axis4Value * 0.666), PERCENT)
+        right_motor.spin(FORWARD, (axis3Value + axis4Value * -0.666), PERCENT)
+        back_motor.spin(REVERSE, (axis4Value), PERCENT)
