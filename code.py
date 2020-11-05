@@ -4,26 +4,24 @@
 #   back_motor set to "normal" on port 1
 #   left_grab_motor set to "normal" on port 4
 #   right_grab_motor set to "normal" on port 12
-
-#All directions dictated with brain screen facing viewer (behind robot)
+#   elevator_motor set to "normal" on port 5
 
 while True:
 
-    #represents the right chain
-    if controller_1.buttonR1.pressing() :
-        right_grab_motor.spin(FORWARD, 75, PERCENT)
-    elif controller_1.buttonR2.pressing() :
-        right_grab_motor.spin(REVERSE, 75, PERCENT)
+    #on up-arrow press, spin left_grab, right_grab, and elevator motors to pull ball in
+    #on down-arrow press, spin left_grab, right_grab, and elevator motors to push ball out
+    if controller_1.buttonUp.pressing() :
+        right_grab_motor.spin(FORWARD, 82, PERCENT)
+        left_grab_motor.spin(FORWARD, 100, PERCENT)
+        elevator_motor.spin(FORWARD, 50, PERCENT)
+    elif controller_1.buttonDown.pressing() :
+        right_grab_motor.spin(REVERSE, 82, PERCENT)
+        left_grab_motor.spin(REVERSE, 100, PERCENT)
+        elevator_motor.spin(REVERSE, 50, PERCENT)
     else :
         right_grab_motor.stop()
-
-    #represents the left grabber
-    if controller_1.buttonL1.pressing() :
-        left_grab_motor.spin(FORWARD, 100, PERCENT)
-    elif controller_1.buttonL2.pressing() :
-        left_grab_motor.spin(REVERSE, 100, PERCENT)
-    else : 
         left_grab_motor.stop()
+        elevator_motor.stop()
 
     #axis 1, right joystick on x-axis
     #axis 3, left joystick on y-axis
@@ -31,6 +29,21 @@ while True:
     axis1Value = controller_1.axis1.position()
     axis3Value = controller_1.axis3.position()
     axis4Value = controller_1.axis4.position()
+
+    # #define velocity percent for L1 and R1 spins
+    # spinFactor = 75
+
+    # #spin robot to the right
+    # if controller_1.buttonR1.pressing() :
+    #     left_motor.spin(REVERSE, spinFactor, PERCENT)
+    #     right_motor.spin(REVERSE, spinFactor, PERCENT)
+    #     back_motor.spin(REVERSE, spinFactor, PERCENT)
+
+    # #spin robot to the left
+    # elif controller_1.buttonL1.pressing() :
+    #     left_motor.spin(FORWARD, spinFactor, PERCENT)
+    #     right_motor.spin(FORWARD, spinFactor, PERCENT)
+    #     back_motor.spin(FORWARD, spinFactor, PERCENT)
 
     #axis 1 in negative x direction (pushed to left side)
     #sensitivity deadzone for values 1...5 
@@ -51,4 +64,5 @@ while True:
     else :    
         left_motor.spin(FORWARD, (axis3Value + axis4Value * 0.666), PERCENT)
         right_motor.spin(REVERSE, (axis3Value + axis4Value * -0.666), PERCENT)
-        back_motor.spin(REVERSE, (axis4Value), PERCENT)  
+        back_motor.spin(REVERSE, (axis4Value), PERCENT)
+    
