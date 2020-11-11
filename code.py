@@ -11,11 +11,11 @@ while True:
     #on up-arrow press, spin left_grab, right_grab, and elevator motors to pull ball in
     #on down-arrow press, spin left_grab, right_grab, and elevator motors to push ball out
     if controller_1.buttonUp.pressing() :
-        right_grab_motor.spin(FORWARD, 82, PERCENT)
+        right_grab_motor.spin(FORWARD, 100, PERCENT)
         left_grab_motor.spin(FORWARD, 100, PERCENT)
         elevator_motor.spin(FORWARD, 50, PERCENT)
     elif controller_1.buttonDown.pressing() :
-        right_grab_motor.spin(REVERSE, 82, PERCENT)
+        right_grab_motor.spin(REVERSE, 100, PERCENT)
         left_grab_motor.spin(REVERSE, 100, PERCENT)
         elevator_motor.spin(REVERSE, 50, PERCENT)
     else :
