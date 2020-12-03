@@ -13,15 +13,19 @@ while True:
     if controller_1.buttonUp.pressing() :
         right_grab_motor.spin(FORWARD, 100, PERCENT)
         left_grab_motor.spin(FORWARD, 100, PERCENT)
-        elevator_motor.spin(FORWARD, 50, PERCENT)
+        elevator_motor.spin(FORWARD, 100, PERCENT)
     elif controller_1.buttonDown.pressing() :
         right_grab_motor.spin(REVERSE, 100, PERCENT)
         left_grab_motor.spin(REVERSE, 100, PERCENT)
-        elevator_motor.spin(REVERSE, 50, PERCENT)
+        elevator_motor.spin(REVERSE, 100, PERCENT)
     else :
         right_grab_motor.stop()
         left_grab_motor.stop()
         elevator_motor.stop()
+
+    if controller_1.buttonLeft.pressing() :
+        controller_1.screen.clear_screen()
+        brain.screen.clear_row()
 
     #axis 1, right joystick on x-axis
     #axis 3, left joystick on y-axis
@@ -30,34 +34,47 @@ while True:
     axis3Value = controller_1.axis3.position()
     axis4Value = controller_1.axis4.position()
 
-    # #define velocity percent for L1 and R1 spins
-    # spinFactor = 75
+    #define velocity percent for L1 and R1 spins
+    # spinVelocity = 75
 
     # #spin robot to the right
     # if controller_1.buttonR1.pressing() :
-    #     left_motor.spin(REVERSE, spinFactor, PERCENT)
-    #     right_motor.spin(REVERSE, spinFactor, PERCENT)
-    #     back_motor.spin(REVERSE, spinFactor, PERCENT)
+    #     left_motor.spin(REVERSE, spinVelocity, PERCENT)
+    #     right_motor.spin(REVERSE, spinVelocity, PERCENT)
+    #     back_motor.spin(REVERSE, spinVelocity, PERCENT)
 
-    # #spin robot to the left
+    #     #spin robot to the left
     # elif controller_1.buttonL1.pressing() :
-    #     left_motor.spin(FORWARD, spinFactor, PERCENT)
-    #     right_motor.spin(FORWARD, spinFactor, PERCENT)
-    #     back_motor.spin(FORWARD, spinFactor, PERCENT)
+    #     left_motor.spin(FORWARD, spinVelocity, PERCENT)
+    #     right_motor.spin(FORWARD, spinVelocity, PERCENT)
+    #     back_motor.spin(FORWARD, spinVelocity, PERCENT)
+        
+    # else :
+    #     left_motor.stop()
+    #     right_motor.stop()
+    #     back_motor.stop()
 
     #axis 1 in negative x direction (pushed to left side)
     #sensitivity deadzone for values 1...5 
+    axisFactor = 0.65
+
     if axis1Value < -5 :
-        left_motor.spin(REVERSE, axis1Value * -1, PERCENT)
+        left_motor.spin(REVERSE, axis1Value * -axisFactor, PERCENT)
+        right_motor.spin(REVERSE, axis1Value  * -axisFactor, PERCENT)
         back_motor.spin(REVERSE, axis1Value  * -1, PERCENT)
-        right_motor.spin(REVERSE, axis1Value  * -1, PERCENT)
+
+        controller_1.screen.print(back_motor.velocity(PERCENT))
+        brain.screen.print(back_motor.velocity(PERCENT))
 
     #axis 1 in positive x direction (pushed to right side)
     #sensitivity deadzone for values 1...5 
     elif axis1Value > 5 :
-        left_motor.spin(FORWARD, axis1Value, PERCENT)
-        right_motor.spin(FORWARD, axis1Value, PERCENT)
+        left_motor.spin(FORWARD, axis1Value * axisFactor, PERCENT)
+        right_motor.spin(FORWARD, axis1Value * axisFactor, PERCENT)
         back_motor.spin(FORWARD, axis1Value, PERCENT)
+
+        controller_1.screen.print(back_motor.velocity(PERCENT))
+        brain.screen.print(back_motor.velocity(PERCENT))
 
     #add values for axis 3 and axis 4 and multi by approx. .666
     #only move back motor when axis 4 is moved
@@ -65,4 +82,8 @@ while True:
         left_motor.spin(FORWARD, (axis3Value + axis4Value * 0.666), PERCENT)
         right_motor.spin(REVERSE, (axis3Value + axis4Value * -0.666), PERCENT)
         back_motor.spin(REVERSE, (axis4Value), PERCENT)
+
+        controller_1.screen.print(back_motor.velocity(PERCENT))
+        brain.screen.print(back_motor.velocity(PERCENT))
+        brain.screen.next_row()
     
