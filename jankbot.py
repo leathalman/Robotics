@@ -34,25 +34,17 @@ while True:
     axis3Value = controller_1.axis3.position()
     axis4Value = controller_1.axis4.position()
 
-    #define velocity percent for L1 and R1 spins
-    # spinVelocity = 75
+    #spin robot to the right
+    if controller_1.buttonR1.pressing() :
+        left_motor.spin_for(REVERSE, 360, DEGREES)
+        right_motor.spin_for(REVERSE, 360, DEGREES)
+        back_motor.spin_for(REVERSE, 360, DEGREES)
 
-    # #spin robot to the right
-    # if controller_1.buttonR1.pressing() :
-    #     left_motor.spin(REVERSE, spinVelocity, PERCENT)
-    #     right_motor.spin(REVERSE, spinVelocity, PERCENT)
-    #     back_motor.spin(REVERSE, spinVelocity, PERCENT)
-
-    #     #spin robot to the left
-    # elif controller_1.buttonL1.pressing() :
-    #     left_motor.spin(FORWARD, spinVelocity, PERCENT)
-    #     right_motor.spin(FORWARD, spinVelocity, PERCENT)
-    #     back_motor.spin(FORWARD, spinVelocity, PERCENT)
-        
-    # else :
-    #     left_motor.stop()
-    #     right_motor.stop()
-    #     back_motor.stop()
+    #spin robot to the left
+    elif controller_1.buttonL1.pressing() :
+        left_motor.spin_for(FORWARD, 360, DEGREES)
+        right_motor.spin_for(FORWARD, 360, DEGREES)
+        back_motor.spin_for(FORWARD, 360, DEGREES)
 
     #axis 1 in negative x direction (pushed to left side)
     #sensitivity deadzone for values 1...5 
